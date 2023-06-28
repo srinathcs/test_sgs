@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/dataApi"
+        android:title="Data Form Api" />
+    <item
+        android:id="@+id/dataRecycler"
+        android:title="Data Form Recycler" />
+    <item
+        android:id="@+id/selectImg"
+        android:title="Select Image" />
+    <item
+        android:id="@+id/listData"
+        android:title="List Data" />
+    <item
+        android:id="@+id/sharedPrf"
+        android:title="Shared Preferences" />
+    <item
+        android:id="@+id/roomDb"
+        android:title="Room Database" />
+    <item
+        android:id="@+id/fragData"
+        android:title="Fragment Data" />
+
+    <item
+        android:id="@+id/location"
+        android:title="Location" />
+    <item
+        android:id="@+id/googleLogin"
+        android:title="Google integration" />
+    <item
+        android:id="@+id/convertJson"
+        android:title="Large Data to Json" />
+</menu>
