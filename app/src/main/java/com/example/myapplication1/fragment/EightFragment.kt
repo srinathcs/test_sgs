@@ -1,16 +1,19 @@
-package com.example.myapplication1.activity
+package com.example.myapplication1.fragment
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.myapplication1.databinding.ActivityEightBinding
+import androidx.fragment.app.Fragment
+import com.example.myapplication1.databinding.FragmentEightBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,9 +23,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class EightActivity : AppCompatActivity(), OnMapReadyCallback {
+class EightFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var binding: ActivityEightBinding
+    private lateinit var binding: FragmentEightBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
@@ -30,12 +33,19 @@ class EightActivity : AppCompatActivity(), OnMapReadyCallback {
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private val REQUEST_ENABLE_GPS = 2
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityEightBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentEightBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         mapView = binding.mvView
         mapView.onCreate(savedInstanceState)
@@ -46,19 +56,20 @@ class EightActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             requestLocationPermission()
         }
-
-        binding.btnNext.setOnClickListener {
-            val intent = Intent(this@EightActivity, NinethActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun checkLocationPermission(): Boolean {
         val fineLocationPermission = Manifest.permission.ACCESS_FINE_LOCATION
         val coarseLocationPermission = Manifest.permission.ACCESS_COARSE_LOCATION
 
-        val fineLocationResult = ContextCompat.checkSelfPermission(this, fineLocationPermission)
-        val coarseLocationResult = ContextCompat.checkSelfPermission(this, coarseLocationPermission)
+        val fineLocationResult = ContextCompat.checkSelfPermission(
+            requireContext(),
+            fineLocationPermission
+        )
+        val coarseLocationResult = ContextCompat.checkSelfPermission(
+            requireContext(),
+            coarseLocationPermission
+        )
 
         return fineLocationResult == PackageManager.PERMISSION_GRANTED && coarseLocationResult == PackageManager.PERMISSION_GRANTED
     }
@@ -68,12 +79,12 @@ class EightActivity : AppCompatActivity(), OnMapReadyCallback {
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
         )
         ActivityCompat.requestPermissions(
-            this, permissions, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            requireActivity(), permissions, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
         )
     }
 
     private fun checkGpsStatus() {
-        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        val locationManager = requireActivity().getSystemService(LocationManager::class.java)
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivityForResult(enableGpsIntent, REQUEST_ENABLE_GPS)
@@ -84,10 +95,10 @@ class EightActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -170,7 +181,7 @@ class EightActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_ENABLE_GPS) {
-            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+            val locationManager = requireActivity().getSystemService(LocationManager::class.java)
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 getLastLocation()
             } else {

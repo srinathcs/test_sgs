@@ -1,51 +1,39 @@
-package com.example.myapplication1.activity
+package com.example.myapplication1.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.myapplication1.R
 import com.example.myapplication1.Resources
-import com.example.myapplication1.databinding.ActivityMainBinding
+import com.example.myapplication1.databinding.FragmentMainBinding
 import com.example.myapplication1.repository.TestRepository
 import com.example.myapplication1.viewmodel.TestViewModel
 import com.example.myapplication1.viewmodel.TestViewModelFactory
 
-class MainActivity : BaseActivity() {
+class MainFragment : Fragment() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentMainBinding
     private lateinit var testViewModel: TestViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        //setupToolbar("Main Activity")
-
-        val repos = TestRepository()
-        val factory = TestViewModelFactory(repos)
-        testViewModel = ViewModelProvider(this, factory)[TestViewModel::class.java]
-
-        initView()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun handleNavigationItemClick(itemId: Int) {
-        // Handle navigation item clicks specific to MainActivity
-        when (itemId) {
-            R.id.dataApi -> {
-                val intent = Intent(this, TwoActivity::class.java)
-                startActivity(intent)
-            }
-
-            R.id.dataRecycler -> {
-                val intent = Intent(this, ThirdActivity::class.java)
-                startActivity(intent)
-
-            }
-            // ...
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val repos = TestRepository()
+        val factory = TestViewModelFactory(repos)
+        testViewModel = ViewModelProvider(this, factory).get(TestViewModel::class.java)
+        initView()
     }
 
     private fun initView() {
@@ -82,17 +70,10 @@ class MainActivity : BaseActivity() {
                         binding.tvCoin.text = it.data!!.coin
                         binding.tvError.text = it.data.error
                         binding.tvErrorMsg.text = it.data.error_msg
-                        setOnCLick()
                     }
                 }
             }
         }
     }
 
-    private fun setOnCLick() {
-        binding.btnNext.setOnClickListener {
-            val intent = Intent(this, TwoActivity::class.java)
-            startActivity(intent)
-        }
-    }
 }

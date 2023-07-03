@@ -1,44 +1,50 @@
-package com.example.myapplication1.activity
+package com.example.myapplication1.fragment
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.myapplication1.imageuploader.ImageUploader
-import com.example.myapplication1.databinding.ActivityThreeBinding
+import com.example.myapplication1.databinding.FragmentThreeBinding
 import com.example.myapplication1.model.MultipartModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ThirdActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityThreeBinding
+class ThirdFragment : Fragment() {
+    private lateinit var binding: FragmentThreeBinding
     private lateinit var addProUploader: ImageUploader
     private var selectedImageUri: Uri? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityThreeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentThreeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding.btnNext.setOnClickListener {
-            intent = Intent(applicationContext, FourActivity::class.java)
-            startActivity(intent)
-        }
-
-        addProUploader = ImageUploader(this)
+        addProUploader = ImageUploader(requireContext())
 
         binding.btnSelect.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.READ_EXTERNAL_STORAGE
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 openImagePicker()
@@ -51,7 +57,7 @@ class ThirdActivity : AppCompatActivity() {
             if (selectedImageUri != null) {
                 uploadImage()
             } else {
-                Toast.makeText(this, "Please select an image first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please select an image first", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -61,7 +67,7 @@ class ThirdActivity : AppCompatActivity() {
             if (isGranted) {
                 openImagePicker()
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -74,7 +80,7 @@ class ThirdActivity : AppCompatActivity() {
                     if (selectedImage != null) {
                         selectedImageUri = selectedImage
                         binding.ivView.setImageURI(selectedImageUri)
-                        Toast.makeText(this, "Image selected", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Image selected", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -101,23 +107,21 @@ class ThirdActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val addProResponse = response.body()
                         Toast.makeText(
-                            this@ThirdActivity, addProResponse?.message, Toast.LENGTH_SHORT
+                            requireContext(), addProResponse?.message, Toast.LENGTH_SHORT
                         ).show()
                     } else {
                         Toast.makeText(
-                            this@ThirdActivity, "API error: " + response.code(), Toast.LENGTH_SHORT
+                            requireContext(), "API error: " + response.code(), Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MultipartModel>, t: Throwable) {
                     Toast.makeText(
-                        this@ThirdActivity, "Network error: " + t.message, Toast.LENGTH_SHORT
+                        requireContext(), "Network error: " + t.message, Toast.LENGTH_SHORT
                     ).show()
                     Log.i("TAG", "onFailureImage:$t")
-
                 }
-
             })
     }
 }

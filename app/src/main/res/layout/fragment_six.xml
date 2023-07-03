@@ -25,47 +25,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Register" />
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Login" />
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Update" />
+        android:text="Update"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Delete" />
+        android:text="Delete"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Show" />
+        android:text="Show"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />
-
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="Next" />
 
 </LinearLayout>

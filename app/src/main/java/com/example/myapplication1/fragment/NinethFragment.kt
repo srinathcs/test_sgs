@@ -1,34 +1,43 @@
-package com.example.myapplication1.activity
+package com.example.myapplication1.fragment
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication1.databinding.ActivityNineBinding
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.example.myapplication1.R
+import com.example.myapplication1.databinding.FragmentNineBinding
 import com.facebook.CallbackManager
-import com.google.android.gms.auth.api.signin.*
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
-
-class NinethActivity : AppCompatActivity() {
+class NinethFragment : Fragment() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
-    private lateinit var binding: ActivityNineBinding
+    private lateinit var binding: FragmentNineBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityNineBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentNineBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         configureGoogleSignIn()
 
         binding.btnSignIn.setOnClickListener {
             signInWithGoogle()
-        }
-        binding.btnFb.setOnClickListener {
-            val intent = Intent(this, ElevenActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -38,9 +47,8 @@ class NinethActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
     }
-
 
     private fun signInWithGoogle() {
         val signInIntent = mGoogleSignInClient.signInIntent
@@ -50,7 +58,6 @@ class NinethActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // Pass the result to Google and Facebook SDKs
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleSignInResult(task)
@@ -76,9 +83,13 @@ class NinethActivity : AppCompatActivity() {
             val googleIdToken = account?.idToken ?: ""
             Log.i("Google ID Token", googleIdToken)
 
-            val intent = Intent(this, TenActivity::class.java)
-            startActivity(intent)
-            finish()
+            binding.fcView.visibility = View.VISIBLE
+
+            val fragment = TenFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fcView, fragment)
+                .commit()
+           // requireActivity().finish()
         } catch (e: ApiException) {
             // Sign in was unsuccessful
             Log.e("failed code=", e.statusCode.toString())
