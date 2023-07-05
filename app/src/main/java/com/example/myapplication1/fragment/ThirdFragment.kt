@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.myapplication1.imageuploader.ImageUploader
 import com.example.myapplication1.databinding.FragmentThreeBinding
@@ -21,6 +23,7 @@ import com.example.myapplication1.model.MultipartModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class ThirdFragment : Fragment() {
     private lateinit var binding: FragmentThreeBinding
@@ -42,14 +45,22 @@ class ThirdFragment : Fragment() {
         addProUploader = ImageUploader(requireContext())
 
         binding.btnSelect.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
+            val permissions = arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+
+            val allPermissionsGranted = permissions.all {
+                ContextCompat.checkSelfPermission(
                     requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    it
                 ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            }
+
+            if (allPermissionsGranted) {
                 openImagePicker()
             } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissionLauncher.launch(permissions)
             }
         }
 
@@ -57,39 +68,68 @@ class ThirdFragment : Fragment() {
             if (selectedImageUri != null) {
                 uploadImage()
             } else {
-                Toast.makeText(requireContext(), "Please select an image first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please select an image first", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
     private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val allPermissionsGranted = permissions.values.all { it }
+
+            if (allPermissionsGranted) {
                 openImagePicker()
             } else {
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Permissions denied", Toast.LENGTH_SHORT).show()
             }
         }
 
     private val selectImageLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val data: Intent? = result.data
-                if (data != null) {
-                    val selectedImage: Uri? = data.data
-                    if (selectedImage != null) {
-                        selectedImageUri = selectedImage
+                val intent = result.data
+                if (intent != null) {
+                    val selectedImageUri: Uri? = intent.data
+                    if (selectedImageUri != null) {
+                        this.selectedImageUri = selectedImageUri
                         binding.ivView.setImageURI(selectedImageUri)
-                        Toast.makeText(requireContext(), "Image selected", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Image selected", Toast.LENGTH_SHORT)
+                            .show()
                     }
+                } else if (selectedImageUri != null) {
+                    binding.ivView.setImageURI(selectedImageUri)
+                    Toast.makeText(requireContext(), "Image selected", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
     private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        selectImageLauncher.launch(intent)
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryIntent.type = "image/*"
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoUri = createPhotoUri()
+        selectedImageUri = photoUri
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+
+        val chooserIntent = Intent.createChooser(galleryIntent, "Select Image")
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+
+        selectImageLauncher.launch(chooserIntent)
+    }
+
+    private fun createPhotoUri(): Uri? {
+        val photoFileName = "photo.jpg"
+        val storageDir: File? =
+            requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return storageDir?.let {
+            FileProvider.getUriForFile(
+                requireContext(),
+                "com.example.myapplication1.fileprovider",
+                File(it, photoFileName)
+            )
+        }
     }
 
     private fun uploadImage() {

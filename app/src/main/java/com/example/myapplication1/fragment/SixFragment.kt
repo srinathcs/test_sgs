@@ -36,32 +36,48 @@ class SixFragment : Fragment() {
         binding.btnRegister.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val user = User(0, username, password)
-                    userDao.insertUser(user)
-                }
-                Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT)
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
                     .show()
+            } else {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val user = User(0, username, password)
+                        userDao.insertUser(user)
+                    }
+                    Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 
         binding.btnLogin.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
-            lifecycleScope.launch {
-                val user = withContext(Dispatchers.IO) {
-                    userDao.getUser(username, password)
-                }
-                if (user != null) {
-                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(
-                        requireContext(), "Login failed register first", Toast.LENGTH_SHORT
-                    ).show()
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                lifecycleScope.launch {
+                    val user = withContext(Dispatchers.IO) {
+                        userDao.getUser(username, password)
+                    }
+                    if (user != null) {
+                        Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Login failed, please register first",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
+
 
         binding.btnShow.setOnClickListener {
             lifecycleScope.launch {
@@ -78,29 +94,42 @@ class SixFragment : Fragment() {
 
         binding.btnUpdate.setOnClickListener {
             val username = binding.etUsername.text.toString()
-            val newPassword = binding.etPassword.text.toString()
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    userDao.updateUserPassword(username, newPassword)
+            val password = binding.etPassword.text.toString()
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        userDao.updateUserPassword(username, password)
+                    }
+                    Toast.makeText(requireContext(), "Password updated", Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(requireContext(), "Password updated", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         binding.btnDelete.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
-            lifecycleScope.launch {
-                val user = withContext(Dispatchers.IO) {
-                    userDao.getUser(username, password)
-                }
-                if (user != null) {
-                    withContext(Dispatchers.IO) {
-                        userDao.deleteUser(user)
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                lifecycleScope.launch {
+                    val user = withContext(Dispatchers.IO) {
+                        userDao.getUser(username, password)
                     }
-                    Toast.makeText(requireContext(), "User deleted", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                    if (user != null) {
+                        withContext(Dispatchers.IO) {
+                            userDao.deleteUser(user)
+                        }
+                        Toast.makeText(requireContext(), "User deleted", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }
         }

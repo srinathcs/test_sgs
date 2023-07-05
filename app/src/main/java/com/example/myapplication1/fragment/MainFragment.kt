@@ -1,5 +1,6 @@
 package com.example.myapplication1.fragment
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class MainFragment : Fragment() {
         val factory = TestViewModelFactory(repos)
         testViewModel = ViewModelProvider(this, factory).get(TestViewModel::class.java)
         initView()
+        binding.tvTitle.paintFlags = binding.tvTitle.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
     }
 
     private fun initView() {
