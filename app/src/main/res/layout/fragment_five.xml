@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,7 +12,8 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
         android:hint="Enter username"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -20,16 +22,19 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="150dp"
         android:layout_marginTop="10dp"
         android:text="Save"
         android:textAllCaps="false"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -95,7 +95,6 @@ class NewActivity : AppCompatActivity() {
             true
         }
 
-        // Load the initial fragment
         val initialFragment = MainFragment()
         loadFragment(initialFragment)
     }
