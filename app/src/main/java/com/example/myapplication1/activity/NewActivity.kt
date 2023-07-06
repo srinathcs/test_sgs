@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.myapplication1.R
+import com.example.myapplication1.fragment.CustomWidgetsFragment
 import com.example.myapplication1.fragment.EightFragment
 import com.example.myapplication1.fragment.ElevenFragment
 import com.example.myapplication1.fragment.FiveFragment
@@ -88,6 +89,11 @@ class NewActivity : AppCompatActivity() {
                 R.id.convertJson -> {
                     val fragment10 = ElevenFragment()
                     loadFragment(fragment10)
+                }
+
+                R.id.customWidget -> {
+                    val customWidget = CustomWidgetsFragment()
+                    loadFragment(customWidget)
                 }
             }
 

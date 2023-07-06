@@ -84,13 +84,14 @@ class EightFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkGpsStatus() {
-        val locationManager = requireActivity().getSystemService(LocationManager::class.java)
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivityForResult(enableGpsIntent, REQUEST_ENABLE_GPS)
-        } else {
-            getLastLocation()
-        }
+//        val locationManager = requireActivity().getSystemService(LocationManager::class.java)
+//        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//            startActivityForResult(enableGpsIntent, REQUEST_ENABLE_GPS)
+//        } else {
+//            getLastLocation()
+//        }
+        getLastLocation()
     }
 
     private fun getLastLocation() {

@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ripple">#9FC4FB</color>
+    <color name="red">#DF0404</color>
+    <color name="menuColor">#148BEA</color>
+    <color name="liteGray">#65474645</color>
 </resources>

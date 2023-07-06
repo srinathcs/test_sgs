@@ -14,6 +14,7 @@ class ElevenFragment : Fragment() {
 
     private var _binding: FragmentElevenBinding? = null
     private val binding get() = _binding!!
+    private lateinit var jsonArray: JSONArray
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +34,9 @@ class ElevenFragment : Fragment() {
             MyData(3, "Tom", 28),
             MyData(4, "Sri", 32)
         )
-        val jsonData = convertToJSON(data)
-        binding.tvTitle.text = jsonData
+
+        val jsonArray = convertToJSON(data)
+        binding.tvTitle.text = jsonArray
     }
 
     override fun onDestroyView() {
@@ -43,7 +45,6 @@ class ElevenFragment : Fragment() {
     }
 
     private fun convertToJSON(data: List<MyData>): String {
-        val jsonArray = JSONArray()
 
         for (item in data) {
             val jsonObject = JSONObject()

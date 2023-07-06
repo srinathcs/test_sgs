@@ -31,4 +31,7 @@
     <item
         android:id="@+id/convertJson"
         android:title="Large Data to Json" />
+    <item
+        android:id="@+id/customWidget"
+        android:title="Widgets" />
 </menu>
