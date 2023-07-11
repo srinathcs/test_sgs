@@ -56,8 +56,8 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"/>
-                <!--android:src="@drawable/ic_close"--> />
+                android:layout_marginTop="5dp" />
+            <!--android:src="@drawable/ic_close"--> />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

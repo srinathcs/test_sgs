@@ -1,16 +1,11 @@
 package com.example.myapplication1.activity
 
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.example.myapplication1.Manifest
 import com.example.myapplication1.R
 import com.example.myapplication1.fragment.CustomWidgetsFragment
 import com.example.myapplication1.fragment.EightFragment
@@ -23,6 +18,7 @@ import com.example.myapplication1.fragment.SevenFragment
 import com.example.myapplication1.fragment.SixFragment
 import com.example.myapplication1.fragment.ThirdFragment
 import com.example.myapplication1.fragment.TwoFragment
+import com.example.myapplication1.fragment.notification.NotificationFragment
 import com.google.android.material.navigation.NavigationView
 
 class NewActivity : AppCompatActivity() {
@@ -99,6 +95,11 @@ class NewActivity : AppCompatActivity() {
                 R.id.customWidget -> {
                     val customWidget = CustomWidgetsFragment()
                     loadFragment(customWidget)
+                }
+
+                R.id.notification -> {
+                    val notification = NotificationFragment()
+                    loadFragment(notification)
                 }
             }
 

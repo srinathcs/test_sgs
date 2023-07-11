@@ -35,6 +35,7 @@ class ElevenFragment : Fragment() {
             MyData(4, "Sri", 32)
         )
 
+        jsonArray = JSONArray()
         val jsonArray = convertToJSON(data)
         binding.tvTitle.text = jsonArray
     }

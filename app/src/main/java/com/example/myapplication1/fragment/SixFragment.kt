@@ -78,7 +78,6 @@ class SixFragment : Fragment() {
             }
         }
 
-
         binding.btnShow.setOnClickListener {
             lifecycleScope.launch {
                 val users = withContext(Dispatchers.IO) {
@@ -97,7 +96,8 @@ class SixFragment : Fragment() {
             val password = binding.etPassword.text.toString()
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
