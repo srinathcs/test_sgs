@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,6 @@ class EightFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private val REQUEST_ENABLE_GPS = 2
 
