@@ -1,7 +1,6 @@
 package com.example.myapplication1.fragment.notification
 
 import android.app.Activity
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 

@@ -18,6 +18,7 @@ import com.example.myapplication1.fragment.SevenFragment
 import com.example.myapplication1.fragment.SixFragment
 import com.example.myapplication1.fragment.ThirdFragment
 import com.example.myapplication1.fragment.TwoFragment
+import com.example.myapplication1.fragment.VideoFragment
 import com.example.myapplication1.fragment.notification.NotificationFragment
 import com.google.android.material.navigation.NavigationView
 
@@ -100,6 +101,11 @@ class NewActivity : AppCompatActivity() {
                 R.id.notification -> {
                     val notification = NotificationFragment()
                     loadFragment(notification)
+                }
+
+                R.id.video -> {
+                    val video = VideoFragment()
+                    loadFragment(video)
                 }
             }
 

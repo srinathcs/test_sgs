@@ -37,4 +37,7 @@
     <item
         android:id="@+id/notification"
         android:title="Notification" />
+    <item
+        android:id="@+id/video"
+        android:title="Video Upload" />
 </menu>

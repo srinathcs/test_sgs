@@ -34,7 +34,6 @@ class RecycleAdapter(val context: Context) : RecyclerView.Adapter<RecycleAdapter
             e.printStackTrace()
         }
 
-
     }
 
     override fun getItemCount(): Int {

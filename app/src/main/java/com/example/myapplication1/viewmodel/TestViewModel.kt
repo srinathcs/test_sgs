@@ -72,11 +72,10 @@ class TestViewModel(private val testRepository: TestRepository) : ViewModel() {
         uid: String,
     ) = viewModelScope.launch {
         try {
-            val response = testRepository.complete(type, subType, cid, ln, lt, deviceId,uid)
+            val response = testRepository.complete(type, subType, cid, ln, lt, deviceId, uid)
             completeFlow.value = Resources.Success(response)
         } catch (exception: Exception) {
             completeFlow.value = Resources.Error(exception.message.toString())
         }
     }
-
 }

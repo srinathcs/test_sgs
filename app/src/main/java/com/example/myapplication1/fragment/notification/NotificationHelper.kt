@@ -2,6 +2,7 @@ package com.example.myapplication1.fragment.notification
 
 import android.Manifest
 import android.app.Activity
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,7 +13,6 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.myapplication1.R
 import com.example.myapplication1.activity.NewActivity
@@ -22,7 +22,6 @@ class NotificationHelper(private val activity: Activity) {
     private companion object {
         private const val CHANNEL_ID = "channel_id"
         private const val NOTIFICATION_ID = 1
-        // private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
     }
 
     fun createNotificationChannel() {
@@ -51,6 +50,7 @@ class NotificationHelper(private val activity: Activity) {
             .setContentText("This is a heads-up notification message.")
             .setContentIntent(deepLink)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(Notification.DEFAULT_ALL)
             .setAutoCancel(true)
 
         // Create a full-screen intent
@@ -83,26 +83,4 @@ class NotificationHelper(private val activity: Activity) {
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
 
-    /* private fun hasNotificationPermission(): Boolean {
-         return ContextCompat.checkSelfPermission(
-             context,
-             Manifest.permission.ACCESS_NOTIFICATION_POLICY
-         ) == PackageManager.PERMISSION_GRANTED
-     }
-
-     private fun requestNotificationPermission() {
-         if (ActivityCompat.shouldShowRequestPermissionRationale(
-                 context as Activity,
-                 Manifest.permission.ACCESS_NOTIFICATION_POLICY
-             )
-         ) {
-             // Display additional information or prompt the user to grant the permission
-         } else {
-             ActivityCompat.requestPermissions(
-                 context,
-                 arrayOf(Manifest.permission.ACCESS_NOTIFICATION_POLICY),
-                 NOTIFICATION_PERMISSION_REQUEST_CODE
-             )
-         }
-     }*/
 }

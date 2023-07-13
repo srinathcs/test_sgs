@@ -62,9 +62,11 @@ class TwoFragment : Fragment() {
                     is Resources.Error -> {
                         Log.i("TAG", "validate for error: ${it.message.toString()}")
                     }
+
                     is Resources.Loading -> {
                         // Handle loading state if needed
                     }
+
                     is Resources.Success -> {
                         Log.i("TAG", "validationStatus2: ${it.data}")
                         myadapter = RecycleAdapter(requireContext())
@@ -77,5 +79,4 @@ class TwoFragment : Fragment() {
             }
         }
     }
-
 }
