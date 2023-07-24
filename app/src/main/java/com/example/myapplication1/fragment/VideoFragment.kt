@@ -2,6 +2,7 @@ package com.example.myapplication1.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.widget.MediaController
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -51,9 +52,13 @@ class VideoFragment : Fragment() {
     private fun playVideoFromUri(videoUri: Uri) {
         val videoView = binding.videoView
         videoView.setVideoURI(videoUri)
-        videoView.start()
 
+        val mediaController = MediaController(requireContext())
+        mediaController.setAnchorView(videoView)
+        videoView.setMediaController(mediaController)
+        videoView.start()
     }
+
 
     companion object {
         private const val REQUEST_SELECT_VIDEO = 1

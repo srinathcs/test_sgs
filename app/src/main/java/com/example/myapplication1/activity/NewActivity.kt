@@ -16,6 +16,7 @@ import com.example.myapplication1.fragment.MainFragment
 import com.example.myapplication1.fragment.NinethFragment
 import com.example.myapplication1.fragment.SevenFragment
 import com.example.myapplication1.fragment.SixFragment
+import com.example.myapplication1.fragment.ThemeAndLanguageFragment
 import com.example.myapplication1.fragment.ThirdFragment
 import com.example.myapplication1.fragment.TwoFragment
 import com.example.myapplication1.fragment.VideoFragment
@@ -106,6 +107,11 @@ class NewActivity : AppCompatActivity() {
                 R.id.video -> {
                     val video = VideoFragment()
                     loadFragment(video)
+                }
+
+                R.id.theme -> {
+                    val theme = ThemeAndLanguageFragment()
+                    loadFragment(theme)
                 }
             }
 

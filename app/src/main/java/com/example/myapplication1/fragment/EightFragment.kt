@@ -173,7 +173,7 @@ class EightFragment : Fragment(), OnMapReadyCallback {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 checkGpsStatus()
             } else {
-                // Handle permission denial
+                //
             }
         }
     }
@@ -186,8 +186,7 @@ class EightFragment : Fragment(), OnMapReadyCallback {
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 getLastLocation()
             } else {
-                // GPS is still not enabled, handle accordingly
-                // ...
+                //
             }
         }
     }

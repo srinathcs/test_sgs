@@ -21,7 +21,6 @@
     <item
         android:id="@+id/fragData"
         android:title="Fragment Data" />
-
     <item
         android:id="@+id/location"
         android:title="Location" />
@@ -40,4 +39,7 @@
     <item
         android:id="@+id/video"
         android:title="Video Upload" />
+    <item
+        android:id="@+id/theme"
+        android:title="Theme And Language" />
 </menu>
